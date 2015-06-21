@@ -23,7 +23,6 @@ func main() {
 		input_count++
 	}
 	sort.Ints(array)
-	//fmt.Println(len(Calculate(target, count, array)))
 	fmt.Println(Calculate(target, count, array))
 }
 
@@ -45,12 +44,13 @@ func Except(pair []int, count int, array []int) []int {
 }
 
 func ListUp(target int, count int, array []int) [][]int {
+	max := array[count-1]
 	list := make([][]int, Fact(count-1))
 	list_index := 0
 	for i, h := range array {
 		if count > i+1 && target > h+array[i+1] {
 			for j, v := range array[i+1:] {
-				if count > i+j+1 && target > h+v {
+				if count > i+j+1 && target <= max+h+v && target > h+v {
 					list[list_index] = []int{h, v, i + j + 1}
 					list_index++
 				}
@@ -72,6 +72,7 @@ func Calculate(target int, count int, array []int) int {
 					if target == pair[0]+pair[1]+v {
 						//						answers = append(answers, []int{pair[0], pair[1], v})
 						answer_count++
+
 					}
 				}
 			}
