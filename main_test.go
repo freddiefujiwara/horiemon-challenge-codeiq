@@ -1,17 +1,10 @@
-package Horiemon
+package main
 
 import (
 	"reflect"
 	"testing"
 )
 
-func TestTarget(t *testing.T) {
-	actual := Target([]int{15, 5, 8, 4, 10, 3, 2})
-	expected := 15
-	if !reflect.DeepEqual(actual, expected) {
-		t.Errorf("got %v\nwant %v", actual, expected)
-	}
-}
 func TestListUp(t *testing.T) {
 	actual := ListUp([]int{8, 4, 10, 3, 2})
 	expected := [][]int{

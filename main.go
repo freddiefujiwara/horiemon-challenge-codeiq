@@ -1,8 +1,37 @@
-package Horiemon
+package main
 
-func Target(input []int) int {
-	return input[0]
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+)
+
+func main() {
+	scanner := bufio.NewScanner(os.Stdin)
+	input_count := 0
+	var target int
+	var count int
+	var array []int
+	for scanner.Scan() {
+		var v, _ = strconv.Atoi(scanner.Text())
+		if 0 == input_count {
+			target = v
+		} else if 1 == input_count {
+			count = v
+		} else {
+			if len(array) < count {
+				array = append(array, v)
+			}
+		}
+		input_count++
+	}
+	fmt.Println(len(Calculate(target, array)))
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "reading standard input:", err)
+	}
 }
+
 func Except(pair []int, array []int) []int {
 	var except []int
 	var start int
@@ -29,6 +58,7 @@ func ListUp(array []int) [][]int {
 	}
 	return list
 }
+
 func Calculate(target int, array []int) [][]int {
 	var answeres [][]int
 	for _, pair := range ListUp(array) {
