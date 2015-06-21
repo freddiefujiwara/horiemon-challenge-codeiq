@@ -76,14 +76,16 @@ func TestCalculate(t *testing.T) {
 	array := []int{8, 4, 10, 3, 2}
 	sort.Ints(array)
 	actual := Calculate(15, 5, array)
-	expected := [][]int{{2, 3, 10}, {3, 4, 8}}
+	//	expected := [][]int{{2, 3, 10}, {3, 4, 8}}
+	expected := 2
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("got %v\nwant %v", actual, expected)
 	}
 	array = []int{13, 12, 17, 10, 4, 18, 3, 11, 5, 7}
 	sort.Ints(array)
 	actual = Calculate(35, 10, array)
-	expected = [][]int{{4, 13, 18}, {5, 12, 18}, {5, 13, 17}, {7, 10, 18}, {7, 11, 17}, {10, 12, 13}}
+	//	expected = [][]int{{4, 13, 18}, {5, 12, 18}, {5, 13, 17}, {7, 10, 18}, {7, 11, 17}, {10, 12, 13}}
+	expected = 6
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("got %v\nwant %v", actual, expected)
 	}

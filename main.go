@@ -23,7 +23,8 @@ func main() {
 		input_count++
 	}
 	sort.Ints(array)
-	fmt.Println(len(Calculate(target, count, array)))
+	//fmt.Println(len(Calculate(target, count, array)))
+	fmt.Println(Calculate(target, count, array))
 }
 
 func Except(pair []int, count int, array []int) []int {
@@ -59,21 +60,24 @@ func ListUp(target int, count int, array []int) [][]int {
 	return list
 }
 
-func Calculate(target int, count int, array []int) [][]int {
-	var answeres [][]int
+//func Calculate(target int, count int, array []int) [][]int {
+func Calculate(target int, count int, array []int) int {
+	//	var answers [][]int
+	answer_count := 0
 	for _, pair := range ListUp(target, count, array) {
 		if 3 == len(pair) {
 			pair_sum := pair[0] + pair[1]
 			if target-pair_sum >= array[0] {
 				for _, v := range Except(pair, count, array) {
 					if target == pair[0]+pair[1]+v {
-						answeres = append(answeres, []int{pair[0], pair[1], v})
+						//						answers = append(answers, []int{pair[0], pair[1], v})
+						answer_count++
 					}
 				}
 			}
 		}
 	}
-	return answeres
+	return answer_count
 }
 
 func Fact(n int) int {
