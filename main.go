@@ -1,20 +1,16 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"strconv"
 )
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
 	input_count := 0
 	var target int
 	var count int
+	var v int
 	var array []int
-	for scanner.Scan() {
-		var v, _ = strconv.Atoi(scanner.Text())
+	for read_count, _ := fmt.Scan(&v); read_count != 0; read_count, _ = fmt.Scan(&v) {
 		if 0 == input_count {
 			target = v
 		} else if 1 == input_count {
@@ -27,9 +23,6 @@ func main() {
 		input_count++
 	}
 	fmt.Println(len(Calculate(target, array)))
-	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading standard input:", err)
-	}
 }
 
 func Except(pair []int, array []int) []int {
