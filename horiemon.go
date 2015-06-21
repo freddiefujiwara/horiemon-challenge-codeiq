@@ -3,11 +3,22 @@ package Horiemon
 func Target(input []int) int {
 	return input[0]
 }
+func Except(pair []int, array []int) []int {
+	var except []int
+	for _, v := range array {
+		if v != pair[0] && v != pair[1] {
+			except = append(except, v)
+		}
+	}
+	return except
+}
 
 func ListUp(array []int) [][]int {
-	return [][]int{{5, 8}, {5, 4}, {5, 10}, {5, 3}, {5, 2},
-		{8, 4}, {8, 10}, {8, 3}, {8, 2},
-		{4, 10}, {4, 3}, {4, 2},
-		{10, 3}, {10, 2},
-		{3, 2}}
+	var list [][]int
+	for i, head := range array {
+		for _, v := range array[i+1:] {
+			list = append(list, []int{head, v})
+		}
+	}
+	return list
 }

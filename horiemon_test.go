@@ -23,3 +23,10 @@ func TestListUp(t *testing.T) {
 		t.Errorf("got %v\nwant %v", actual, expected)
 	}
 }
+func TestExcept(t *testing.T) {
+	actual := Except([]int{5, 8}, []int{5, 8, 4, 10, 3, 2})
+	expected := []int{4, 10, 3, 2}
+	if !reflect.DeepEqual(actual, expected) {
+		t.Errorf("got %v\nwant %v", actual, expected)
+	}
+}
