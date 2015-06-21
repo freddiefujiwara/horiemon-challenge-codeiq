@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 func main() {
@@ -15,51 +16,74 @@ func main() {
 			target = v
 		} else if 1 == input_count {
 			count = v
+			array = make([]int, count)
 		} else {
-			if len(array) < count {
-				array = append(array, v)
-			}
+			array[input_count-2] = v
 		}
 		input_count++
 	}
-	fmt.Println(len(Calculate(target, array)))
+	sort.Ints(array)
+	fmt.Println(Calculate(target, count, array))
 }
 
-func Except(pair []int, array []int) []int {
-	var except []int
-	var start int
-	for i, v := range array {
+func Except(pair []int, count int, array []int) []int {
+	except := make([]int, count-pair[2])
+	except_index := 0
+	on := false
+	for _, v := range array {
+		if on {
+			except[except_index] = v
+			except_index++
+		}
 		if v == pair[1] {
-			start = i + 1
+			on = true
 		}
 
-	}
-	for _, v := range array[start:] {
-		if v != pair[0] && v != pair[1] {
-			except = append(except, v)
-		}
 	}
 	return except
 }
 
-func ListUp(array []int) [][]int {
-	var list [][]int
-	for i, head := range array {
-		for _, v := range array[i+1:] {
-			list = append(list, []int{head, v})
+func ListUp(target int, count int, array []int) [][]int {
+	max := array[count-1]
+	list := make([][]int, Fact(count-1))
+	list_index := 0
+	for i, h := range array {
+		if count > i+1 && target > h+array[i+1] {
+			for j, v := range array[i+1:] {
+				if count > i+j+1 && target <= max+h+v && target > h+v {
+					list[list_index] = []int{h, v, i + j + 1}
+					list_index++
+				}
+			}
 		}
 	}
 	return list
 }
 
-func Calculate(target int, array []int) [][]int {
-	var answeres [][]int
-	for _, pair := range ListUp(array) {
-		for _, v := range Except(pair, array) {
-			if target == pair[0]+pair[1]+v {
-				answeres = append(answeres, []int{pair[0], pair[1], v})
+//func Calculate(target int, count int, array []int) [][]int {
+func Calculate(target int, count int, array []int) int {
+	//	var answers [][]int
+	answer_count := 0
+	for _, pair := range ListUp(target, count, array) {
+		if 3 == len(pair) {
+			pair_sum := pair[0] + pair[1]
+			if target-pair_sum >= array[0] {
+				for _, v := range Except(pair, count, array) {
+					if target == pair[0]+pair[1]+v {
+						//						answers = append(answers, []int{pair[0], pair[1], v})
+						answer_count++
+
+					}
+				}
 			}
 		}
 	}
-	return answeres
+	return answer_count
+}
+
+func Fact(n int) int {
+	if n == 0 {
+		return 0
+	}
+	return n + Fact(n-1)
 }
