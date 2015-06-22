@@ -16,27 +16,20 @@ type triple struct {
 }
 
 func triples(l int, n []int, list bool) (nt int, t []triple) {
-	for i := 0; i < len(n); i++ {
+	num_of_list := len(n)
+	for i := 0; i < num_of_list-2; i++ {
 		x := n[i]
-		if x >= l {
+		if x > l {
 			break
 		}
-		for j := i + 1; j < len(n); j++ {
+		for j := i + 1; j < num_of_list-1; j++ {
 			y := x + n[j]
-			if y >= l {
+			if y > l {
 				break
 			}
-			for k := j + 1; k < len(n); k++ {
-				z := y + n[k]
-				if z >= l {
-					if z == l {
-						nt++
-						if list {
-							t = append(t, triple{x: n[i], y: n[j], z: n[k]})
-						}
-					}
-					break
-				}
+			pos := sort.SearchInts(n[j:], l-y)
+			if j < pos+j && pos+j < num_of_list && n[pos+j] == l-y {
+				nt++
 			}
 		}
 	}
