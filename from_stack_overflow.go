@@ -16,24 +16,53 @@ type triple struct {
 }
 
 func triples(l int, n []int, list bool) (nt int, t []triple) {
-	num_of_list := len(n)
-	for i := 0; i < num_of_list-2; i++ {
+	for i := 0; i < len(n); i++ {
 		x := n[i]
-		if x > l {
+		if x >= l {
 			break
 		}
-		for j := i + 1; j < num_of_list-1; j++ {
+
+		for j := i + 1; j < len(n); j++ {
 			y := x + n[j]
-			if y > l {
+			if y >= l {
 				break
 			}
-			pos := sort.SearchInts(n[j:], l-y)
-			if j < pos+j && pos+j < num_of_list && n[pos+j] == l-y {
-				nt++
+
+			if k := j + 1; k < len(n) {
+				z := y + n[k]
+				if z >= l {
+					if z == l {
+						nt++
+						if list {
+							t = append(t, triple{x: n[i], y: n[j], z: n[k]})
+						}
+					}
+				} else if k := binSearch(n, l-y); k > 0 {
+					nt++
+					if list {
+						t = append(t, triple{x: n[i], y: n[j], z: n[k]})
+					}
+				}
 			}
 		}
 	}
 	return nt, t
+}
+
+func binSearch(n []int, x int) int {
+	i, j := 0, len(n)-1
+	for i < j {
+		m := i + (j-i)/2
+		if n[m] < x {
+			i = m + 1
+		} else {
+			j = m
+		}
+	}
+	if i == j && n[i] == x {
+		return i
+	}
+	return -1
 }
 
 func readInput() (l int, n []int, err error) {
@@ -62,7 +91,7 @@ func readInput() (l int, n []int, err error) {
 
 	if len(n) > 0 {
 		l = n[0]
-		n = n[1:]
+		n = n[2:]
 	}
 	sort.Ints(n)
 	for i := 1; i < len(n); i++ {
@@ -84,6 +113,6 @@ func main() {
 	nt, t := triples(l, n, list)
 	fmt.Println(nt)
 	if list {
-		fmt.Println(t)
+		fmt.Println(t, len(t))
 	}
 }
